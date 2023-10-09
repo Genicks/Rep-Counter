@@ -1,0 +1,22 @@
+GET http://localhost:5000/
+
+###
+POST http://localhost:5000/
+Content-Type: application/json
+
+{
+  "name": "test from post",
+  "goal": 105
+}
+###
+
+POST http://localhost:5000/
+Content-Type: application/json
+
+{
+  "name": "test5",
+  "goal": 5
+}
+
+###
+DELETE http://localhost:5000/651ec5452bdcc41b6885f43b

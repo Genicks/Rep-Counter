@@ -1,0 +1,82 @@
+body {
+  background-color: rgb(3, 31, 46);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+
+.wrapper {
+  background-color: rgb(2, 27, 40);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  /* border: 0px solid whitesmoke; */
+  width: 93%;
+  margin: 2%;
+  padding: 2%;
+  position: relative;
+  box-shadow: 5px 5px 10px black;
+}
+
+.Exercise {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#name {
+  margin: 0;
+  padding-bottom: 15px;
+}
+.Exercise h3 {
+  margin: 0;
+}
+
+.wrapper2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper2 h3 {
+  margin: 0;
+  padding-bottom: 15px;
+}
+
+.delete {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.delete {
+  background-color: crimson;
+  color: white;
+  border: none;
+  padding: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+#myForm {
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100px;
+  padding: 20px;
+  margin-top: 2rem;
+  margin-bottom: 5rem;
+  justify-content: space-around;
+  background-color: rgb(2, 27, 40);
+}

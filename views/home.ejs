@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="sytles.css" />
+    <title>Rep Counter</title>
+  </head>
+  <body>
+    <h1>Rep Counter</h1>
+
+    <div class="container">
+      <% exercise.forEach((exercise, id) => { id += 1; %>
+      <div class="wrapper">
+        <div class="Exercise">
+          <h3 id="name"><%= exercise.name %></h3>
+
+          <div class="Goals">
+            <h3>Goal: <%= exercise.goal %></h3>
+          </div>
+        </div>
+
+        <div class="wrapper2">
+          <h3><span id="reps<%= exercise._id %>">0</span> rep(s)</h3>
+
+          <div class="incrementors">
+            <button
+              onclick="increment(true, `<%= exercise._id %>`, `<%= exercise.goal %>`, `<%= exercise.name %>`)"
+            >
+              +
+            </button>
+            <button
+              onclick="increment(false, `<%= exercise._id %>`, `<%= exercise.goal %>`, `<%= exercise.name %>`)"
+            >
+              -
+            </button>
+          </div>
+        </div>
+        <button class="delete" onclick="deleteExercise('<%= exercise._id %>')">
+          X
+        </button>
+      </div>
+      <% }); %>
+    </div>
+
+    <form action="/" method="post" id="myForm">
+      <input
+        type="text"
+        name="name"
+        id="ExerciseI"
+        placeholder="Name of Exercise"
+        required
+      />
+      <input
+        type="number"
+        name="goal"
+        id="GoalI"
+        placeholder="Rep Goal"
+        required
+      />
+      <input type="submit" value="New" onclick="reloader(true)" />
+    </form>
+
+    <script>
+      const encodedData = "<%= JSON.stringify(exercise) %>";
+      const decodedData = decodeEntities(encodedData);
+      const exerciseData = JSON.parse(decodedData);
+
+      function decodeEntities(encodedString) {
+        const textarea = document.createElement("textarea");
+        textarea.innerHTML = encodedString;
+        return textarea.value;
+      }
+
+      if (window.performance.navigation.type === 1) {
+        exerciseData.forEach((element, id) => {
+          id += 1;
+          document.getElementById(`reps${element._id}`).innerText = localStorage.getItem(`increment${element._id}`) || 0
+        });
+        // console.log(exerciseData._id);
+      } else {
+        console.log("Page was not reloaded");
+      }
+
+      function increment(state, id, goal, name) {
+        let inc;
+        if (state) {
+          inc = 5;
+        } else {
+          inc = -5;
+        }
+
+        const reps = document.getElementById(`reps${id}`).innerText;
+        let increment = Number(reps);
+
+        if ((increment >= goal - 5) & state) {
+          alert(`You have met your goal of ${goal} reps in ${name}`);
+          increment += 5;
+          setTimeout(() => {
+            document.getElementById(`reps${id}`).innerText = 0;
+          }, 3000);
+        } else if (increment > 0 || state == true) {
+          increment += inc;
+        } else {
+          return increment;
+        }
+
+        document.getElementById(`reps${id}`).innerText = increment;
+        localStorage.setItem(`increment${id}`, document.getElementById(`reps${id}`).innerText)
+      }
+
+      const myForm = document.getElementById("myForm");
+
+      function handleSubmit(event) {
+        event.preventDefault();
+      }
+
+      myForm.addEventListener("submit", handleSubmit);
+
+      function reloader(state) {
+        const nameInput = document.getElementById("ExerciseI").value;
+        const goalInput = document.getElementById("GoalI").value;
+
+        if (nameInput !== "" && goalInput !== "") {
+          myForm.removeEventListener("submit", handleSubmit);
+          reload(true);
+        }
+      }
+
+      async function deleteExercise(id) {
+        console.log(localStorage.removeItem(`increment${id}`))
+        try {
+          reload(true);
+          const response = await fetch(`/delete/${id}`, { method: "DELETE" });
+          
+
+          if (response.ok) {
+            console.log("Deleted Exercise:", response.statusText);
+          } else {
+            console.error("Error:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Network error:", error.message);
+        }
+      }
+
+      function reload(state) {
+        setTimeout((state) => {
+          location.reload(state);
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
