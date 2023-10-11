@@ -11,7 +11,7 @@
 
     <div class="container">
       <% exercise.forEach((exercise, id) => { id += 1; %>
-      <div class="wrapper">
+      <div class="wrapper" id="Wrapper<%= exercise._id %>">
         <div class="Exercise">
           <h3 id="name"><%= exercise.name %></h3>
 
@@ -75,9 +75,11 @@
       if (window.performance.navigation.type === 1) {
         exerciseData.forEach((element, id) => {
           id += 1;
-          document.getElementById(`reps${element._id}`).innerText = localStorage.getItem(`increment${element._id}`) || 0
+          document.getElementById(`reps${element._id}`).innerText =
+            localStorage.getItem(`increment${element._id}`) || 0;
+          let Wrapper = document.getElementById(`Wrapper${element._id}`);
+          Wrapper.classList.add(localStorage.getItem(`Wrapper${element._id}`));
         });
-        // console.log(exerciseData._id);
       } else {
         console.log("Page was not reloaded");
       }
@@ -94,11 +96,28 @@
         let increment = Number(reps);
 
         if ((increment >= goal - 5) & state) {
-          alert(`You have met your goal of ${goal} reps in ${name}`);
+          const element = document.getElementById(`Wrapper${id}`);
+
+          if (increment == goal - 5) {
+            alert(`You have met your goal of ${goal} reps in ${name}`);
+            localStorage.setItem(`Wrapper${id}`, "Completed");
+            element.classList.add(localStorage.getItem(`Wrapper${id}`));
+          } else {
+            element.classList.remove("Completed");
+            localStorage.removeItem(`Wrapper${id}`);
+          }
+
           increment += 5;
-          setTimeout(() => {
-            document.getElementById(`reps${id}`).innerText = 0;
-          }, 3000);
+          if ((increment == Number(goal) + 5) & state) {
+            alert("GET READY FOR THE NEXT SET!!!");
+            return (
+              (document.getElementById(`reps${id}`).innerText = 0),
+              localStorage.setItem(
+                `increment${id}`,
+                document.getElementById(`reps${id}`).innerText
+              )
+            );
+          }
         } else if (increment > 0 || state == true) {
           increment += inc;
         } else {
@@ -106,7 +125,10 @@
         }
 
         document.getElementById(`reps${id}`).innerText = increment;
-        localStorage.setItem(`increment${id}`, document.getElementById(`reps${id}`).innerText)
+        localStorage.setItem(
+          `increment${id}`,
+          document.getElementById(`reps${id}`).innerText
+        );
       }
 
       const myForm = document.getElementById("myForm");
@@ -128,11 +150,10 @@
       }
 
       async function deleteExercise(id) {
-        console.log(localStorage.removeItem(`increment${id}`))
+        console.log(localStorage.removeItem(`increment${id}`));
         try {
           reload(true);
           const response = await fetch(`/delete/${id}`, { method: "DELETE" });
-          
 
           if (response.ok) {
             console.log("Deleted Exercise:", response.statusText);

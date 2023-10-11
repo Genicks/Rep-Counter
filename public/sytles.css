@@ -61,7 +61,7 @@ body {
 }
 
 .delete {
-  background-color: crimson;
+  background-color: rgb(120, 11, 33);
   color: white;
   border: none;
   padding: 10px;
@@ -79,4 +79,9 @@ body {
   margin-bottom: 5rem;
   justify-content: space-around;
   background-color: rgb(2, 27, 40);
+}
+
+.Completed {
+  background-color: rgb(2, 40, 32);
+  box-shadow: rgb(3, 33, 26);
 }
