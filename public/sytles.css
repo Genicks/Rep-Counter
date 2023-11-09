@@ -11,7 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80%;
+  width: 95%;
 }
 
 .wrapper {
@@ -33,6 +33,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  /* max-width: 100px; */
 }
 #name {
   margin: 0;
@@ -61,7 +62,7 @@ body {
 }
 
 .delete {
-  background-color: rgb(120, 11, 33);
+  background-color: rgba(120, 11, 33, 0.537);
   color: white;
   border: none;
   padding: 10px;
