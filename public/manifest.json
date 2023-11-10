@@ -1,0 +1,17 @@
+{
+  "name": "Reputation Counter",
+  "short_name": "Rep-Count",
+  "start_url": ".",
+  "background_color": "#021B28",
+  "theme_color": "#031F2E",
+  "display": "standalone", 
+  "icons": [
+    {
+      "src": "Images/db.png",
+      "sizes": "512x512",
+      "type": "image/png", 
+      "purpose": "any maskable"
+    }
+  ],
+  "description": "Rep Counter"
+}
